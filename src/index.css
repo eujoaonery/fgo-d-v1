@@ -1,0 +1,764 @@
+@import 'tailwindcss';
+@import 'leaflet/dist/leaflet.css';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+  --color-fogo-bg: var(--fogo-bg);
+  --color-fogo-surface: var(--fogo-surface);
+  --color-fogo-text: var(--fogo-text);
+  --color-fogo-muted: var(--fogo-muted);
+  --color-fogo-border: var(--fogo-border);
+  --color-fogo-accent: var(--fogo-accent);
+  --color-fogo-accent-hover: var(--fogo-accent-hover);
+  --color-fogo-gradient-from: var(--fogo-gradient-from);
+  --color-fogo-gradient-to: var(--fogo-gradient-to);
+  --color-fogo-success: var(--fogo-success);
+  --color-fogo-success-bg: var(--fogo-success-bg);
+  --color-fogo-warning: var(--fogo-warning);
+  --color-fogo-warning-bg: var(--fogo-warning-bg);
+  --color-fogo-critical: var(--fogo-critical);
+  --color-fogo-critical-bg: var(--fogo-critical-bg);
+  --color-fogo-overlay: var(--fogo-overlay);
+  --color-fogo-overlay-soft: var(--fogo-overlay-soft);
+  --color-fogo-hover-elevated: var(--fogo-hover-elevated);
+  --color-fogo-prevision: var(--fogo-prevision);
+  --color-fogo-prevision-bg: var(--fogo-prevision-bg);
+
+  --radius-fogo-sm: 10px;
+  --radius-fogo-md: 12px;
+  --radius-fogo-lg: 16px;
+
+  --shadow-fogo-card: var(--fogo-shadow-card);
+  --shadow-fogo-panel: var(--fogo-shadow-panel);
+}
+
+/* Tema claro (opcional) */
+:root {
+  color-scheme: light;
+
+  --fogo-bg: #f3f3f4;
+  --fogo-surface: #ffffff;
+  --fogo-text: #202124;
+  --fogo-muted: #6b7280;
+  --fogo-border: #e5e7eb;
+  --fogo-accent: #1a5f8a;
+  --fogo-accent-hover: #154a6b;
+  --fogo-gradient-from: #ceeaf7;
+  --fogo-gradient-to: #edf5f8;
+  --fogo-success: #059669;
+  --fogo-success-bg: #ecfdf5;
+  --fogo-warning: #d97706;
+  --fogo-warning-bg: #fffbeb;
+  --fogo-critical: #dc2626;
+  --fogo-prevision: #6d28d9;
+  --fogo-prevision-bg: #f3e8ff;
+  --fogo-critical-bg: #fef2f2;
+
+  --fogo-glass-bg: rgb(255 255 255 / 0.82);
+  --fogo-overlay: rgb(32 33 36 / 0.25);
+  --fogo-overlay-soft: rgb(32 33 36 / 0.2);
+  --fogo-hover-elevated: rgb(255 255 255 / 0.65);
+  --fogo-map-grid: rgb(229 231 235 / 0.35);
+  --fogo-map-vignette-top: rgb(237 245 248 / 0.25);
+  --fogo-map-vignette-bottom: rgb(243 243 244 / 0.35);
+  --fogo-kpi-flash: rgb(206 234 247 / 0.45);
+
+  --fogo-chart-grid: #e5e7eb;
+  --fogo-chart-axis: #6b7280;
+  --fogo-chart-accent: #1a5f8a;
+  --fogo-chart-accent-soft: #ceeaf7;
+  --fogo-chart-success: #059669;
+  --fogo-chart-critical: #dc2626;
+  --fogo-chart-muted-line: #94a3b8;
+  --fogo-chart-radial-track: #edf5f8;
+  --fogo-shadow-card: 0 1px 2px rgb(32 33 36 / 0.04), 0 1px 3px rgb(32 33 36 / 0.06);
+  --fogo-shadow-panel: 0 4px 24px rgb(32 33 36 / 0.06);
+}
+
+/* Tema escuro — cinza neutro (#171717), contraste suave nas camadas */
+:root.dark {
+  color-scheme: dark;
+
+  --fogo-bg: #171717;
+  --fogo-surface: #212121;
+  --fogo-text: #ededed;
+  --fogo-muted: #a3a3a3;
+  --fogo-border: #2e2e2e;
+  --fogo-accent: #6ec4ef;
+  --fogo-accent-hover: #8ed4f7;
+  --fogo-gradient-from: #262626;
+  --fogo-gradient-to: #2a2a2a;
+  --fogo-success: #34d399;
+  --fogo-success-bg: rgb(52 211 153 / 0.14);
+  --fogo-warning: #fbbf24;
+  --fogo-warning-bg: rgb(251 191 36 / 0.14);
+  --fogo-critical: #f87171;
+  --fogo-prevision: #c4b5fd;
+  --fogo-prevision-bg: rgb(167 139 250 / 0.16);
+  --fogo-critical-bg: rgb(248 113 113 / 0.14);
+
+  --fogo-glass-bg: rgb(23 23 23 / 0.92);
+  --fogo-overlay: rgb(0 0 0 / 0.55);
+  --fogo-overlay-soft: rgb(0 0 0 / 0.45);
+  --fogo-hover-elevated: rgb(255 255 255 / 0.06);
+  --fogo-map-grid: rgb(64 64 64 / 0.45);
+  --fogo-map-vignette-top: rgb(23 23 23 / 0.4);
+  --fogo-map-vignette-bottom: rgb(23 23 23 / 0.55);
+  --fogo-kpi-flash: rgb(110 196 239 / 0.2);
+
+  --fogo-chart-grid: #404040;
+  --fogo-chart-axis: #a3a3a3;
+  --fogo-chart-accent: #6ec4ef;
+  --fogo-chart-accent-soft: #3d4f5c;
+  --fogo-chart-success: #34d399;
+  --fogo-chart-critical: #f87171;
+  --fogo-chart-muted-line: #737373;
+  --fogo-chart-radial-track: #2a2a2a;
+  --fogo-shadow-card: 0 1px 2px rgb(0 0 0 / 0.4), 0 2px 8px rgb(0 0 0 / 0.3);
+  --fogo-shadow-panel: 0 8px 32px rgb(0 0 0 / 0.5);
+}
+
+.fogo-glass {
+  background: var(--fogo-glass-bg);
+  backdrop-filter: blur(12px);
+}
+
+.fogo-scroll-subtle {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--fogo-muted) 28%, transparent) transparent;
+}
+.fogo-scroll-subtle::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+.fogo-scroll-subtle::-webkit-scrollbar-track {
+  background: transparent;
+  margin-block: 6px;
+  margin-inline: 6px;
+}
+.fogo-scroll-subtle::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--fogo-muted) 26%, transparent);
+  border-radius: 999px;
+}
+.fogo-scroll-subtle::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--fogo-muted) 48%, transparent);
+}
+.fogo-scroll-subtle::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.fogo-scroll-hidden {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.fogo-scroll-hidden::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+.fogo-map-surface {
+  background:
+    linear-gradient(180deg, var(--fogo-map-vignette-top) 0%, var(--fogo-bg) 100%),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 11px,
+      var(--fogo-map-grid) 11px,
+      var(--fogo-map-grid) 12px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 11px,
+      var(--fogo-map-grid) 11px,
+      var(--fogo-map-grid) 12px
+    );
+}
+
+@layer base {
+  html {
+    @apply antialiased;
+  }
+
+  body {
+    @apply bg-fogo-bg text-fogo-text font-sans;
+  }
+
+  *:focus-visible {
+    @apply outline-2 outline-offset-2 outline-fogo-accent;
+  }
+
+  select,
+  input,
+  textarea {
+    @apply text-fogo-text;
+  }
+
+  select,
+  option {
+    background-color: var(--fogo-surface);
+    color: var(--fogo-text);
+  }
+
+  :root.dark select,
+  :root.dark option {
+    background-color: #212121;
+    color: #ededed;
+  }
+
+  .recharts-wrapper .recharts-legend-item-text {
+    color: var(--fogo-text) !important;
+  }
+
+  .recharts-wrapper .recharts-cartesian-axis-tick-value {
+    fill: var(--fogo-chart-axis);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.fogo-gradient-panel {
+  background: linear-gradient(135deg, var(--fogo-gradient-from), var(--fogo-gradient-to));
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fogo-traffic-flow {
+  stroke-dasharray: 1.4 2.8;
+  stroke-dashoffset: 0;
+  animation: fogo-traffic-flow 2.8s linear infinite;
+  filter: drop-shadow(0 0 1px rgb(56 189 248 / 0.8));
+}
+
+.fogo-traffic-flow-reverse {
+  stroke-dasharray: 0.9 3.2;
+  stroke-dashoffset: 0;
+  animation: fogo-traffic-flow-reverse 3.2s linear infinite;
+  filter: drop-shadow(0 0 1px rgb(253 224 71 / 0.6));
+}
+
+@keyframes fogo-traffic-flow {
+  to {
+    stroke-dashoffset: -12;
+  }
+}
+
+@keyframes fogo-traffic-flow-reverse {
+  to {
+    stroke-dashoffset: 12;
+  }
+}
+
+@keyframes fogo-kpi-flash {
+  0% {
+    background-color: var(--fogo-kpi-flash);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+.fogo-kpi-flash {
+  animation: fogo-kpi-flash 0.65s ease-out;
+}
+
+@keyframes fogo-live-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+.fogo-live-pulse {
+  animation: fogo-live-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes fogo-alpha-sheen {
+  0%,
+  10% {
+    transform: translateX(-140%) skewX(-18deg);
+  }
+  48% {
+    transform: translateX(280%) skewX(-18deg);
+  }
+  100% {
+    transform: translateX(280%) skewX(-18deg);
+  }
+}
+
+/* Brilho lento só no rótulo Prevision Engine da sidebar. */
+.fogo-alpha-nav-label {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  flex: 0 1 auto;
+  overflow: hidden;
+}
+
+.fogo-alpha-nav-label::after {
+  content: '';
+  position: absolute;
+  inset: -8% auto -8% 0;
+  width: 52%;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    color-mix(in srgb, var(--fogo-accent) 42%, transparent) 34%,
+    color-mix(in srgb, var(--fogo-accent) 88%, #fff) 50%,
+    color-mix(in srgb, var(--fogo-accent) 42%, transparent) 66%,
+    transparent 100%
+  );
+  transform: translateX(-140%) skewX(-18deg);
+  animation: fogo-alpha-sheen 8.2s ease-in-out infinite;
+  mix-blend-mode: plus-lighter;
+  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--fogo-accent) 55%, transparent));
+}
+
+:root:not(.dark) .fogo-alpha-nav-label::after {
+  mix-blend-mode: overlay;
+  filter: drop-shadow(0 0 5px color-mix(in srgb, var(--fogo-accent) 40%, transparent));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fogo-alpha-nav-label::after {
+    content: none;
+    animation: none !important;
+  }
+}
+
+@keyframes fogo-bell-ring {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  10%,
+  30%,
+  50% {
+    transform: rotate(-12deg);
+  }
+  20%,
+  40% {
+    transform: rotate(12deg);
+  }
+  60% {
+    transform: rotate(0);
+  }
+}
+
+.fogo-bell-ring {
+  animation: fogo-bell-ring 0.55s ease-in-out 3;
+}
+
+@keyframes fogo-badge-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgb(220 38 38 / 0.45);
+  }
+  50% {
+    transform: scale(1.08);
+    box-shadow: 0 0 0 4px rgb(220 38 38 / 0);
+  }
+}
+
+.fogo-badge-pulse {
+  animation: fogo-badge-pulse 1.2s ease-in-out 2;
+}
+
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+  background: var(--fogo-bg);
+  font-family: inherit;
+}
+
+/* OSM raster has no official dark style without a vendor key.
+   Invert only the tile pane so pins, heat and controls stay in FOGO colors. */
+.fogo-map-dark .leaflet-tile-pane {
+  filter: invert(1) hue-rotate(180deg) saturate(0.55) brightness(0.92) contrast(0.95);
+}
+
+.leaflet-control-attribution {
+  font-size: 10px;
+  background: color-mix(in srgb, var(--fogo-surface) 88%, transparent) !important;
+  color: var(--fogo-muted);
+}
+
+.leaflet-control-attribution a {
+  color: var(--fogo-accent);
+}
+
+.leaflet-bar a,
+.leaflet-bar a:hover {
+  background: var(--fogo-surface);
+  color: var(--fogo-text);
+  border-bottom-color: var(--fogo-border);
+}
+
+.leaflet-bar a:hover {
+  background: var(--fogo-hover-elevated);
+}
+
+.fogo-alert-badge-icon,
+.fogo-map-glyph-icon.leaflet-div-icon {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.fogo-map-pin {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  background: var(--pin);
+  box-shadow: 0 1px 4px rgb(15 23 42 / 0.45), 0 0 0 1.5px rgb(255 255 255 / 0.55);
+  color: #fff;
+}
+
+.fogo-map-pin svg {
+  width: 70%;
+  height: 70%;
+  display: block;
+}
+
+.fogo-map-pin--selected {
+  box-shadow: 0 0 0 2px #fff, 0 2px 10px rgb(15 23 42 / 0.55);
+}
+
+.fogo-map-pin--alert {
+  box-shadow: 0 0 0 2px #fecaca, 0 2px 8px rgb(185 28 28 / 0.45);
+}
+
+.fogo-map-pin--live {
+  border-radius: 999px;
+  animation: fogo-map-pin-live 1.6s ease-in-out infinite;
+}
+
+.fogo-map-pin--base {
+  background: rgb(15 23 42 / 0.55);
+  box-shadow: 0 0 0 1.5px var(--pin);
+  color: var(--pin);
+}
+
+.fogo-map-pin--inactive {
+  opacity: 0.55;
+  filter: grayscale(0.35);
+}
+
+@keyframes fogo-map-pin-live {
+  0%,
+  100% {
+    box-shadow: 0 0 0 1.5px rgb(248 250 252 / 0.7), 0 1px 4px rgb(15 23 42 / 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgb(248 250 252 / 0.25), 0 2px 8px rgb(15 23 42 / 0.45);
+  }
+}
+
+.fogo-alert-pin {
+  display: flex;
+  max-width: 148px;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid rgb(254 202 202 / 0.85);
+  border-radius: 999px;
+  background: #b91c1c;
+  box-shadow: 0 2px 10px rgb(15 23 42 / 0.4);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 650;
+  line-height: 1.1;
+  padding: 3px 8px 3px 5px;
+  white-space: nowrap;
+  animation: fogo-alert-pin-pulse 1.8s ease-in-out infinite;
+}
+
+.fogo-alert-pin--alta {
+  background: #b91c1c;
+}
+
+.fogo-alert-pin--media {
+  background: #c2410c;
+}
+
+.fogo-alert-pin--baixa {
+  background: #a16207;
+}
+
+.fogo-alert-pin__mark {
+  display: inline-flex;
+  min-width: 14px;
+  height: 14px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.2);
+  font-size: 9px;
+}
+
+.fogo-alert-pin__text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fogo-map-tip-alert {
+  color: #fecaca;
+  font-weight: 600;
+}
+
+.leaflet-div-icon.fogo-cluster-icon {
+  background: transparent;
+  border: none;
+}
+
+.fogo-cluster {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--fogo-accent) 88%, #0f172a);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 650;
+  border: 2px solid rgb(255 255 255 / 0.9);
+  box-shadow: 0 2px 8px rgb(15 23 42 / 0.35);
+}
+
+@keyframes fogo-alert-pin-pulse {
+  0%,
+  100% {
+    transform: translateY(0);
+    box-shadow: 0 2px 10px rgb(15 23 42 / 0.4);
+  }
+  50% {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgb(185 28 28 / 0.45);
+  }
+}
+
+@keyframes fogo-loadscreen-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.fogo-loadscreen {
+  position: relative;
+  display: block;
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+.fogo-loadscreen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  border: 1.5px solid color-mix(in srgb, var(--fogo-accent) 22%, transparent);
+}
+
+.fogo-loadscreen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  border: 1.5px solid transparent;
+  border-top-color: var(--fogo-accent);
+  animation: fogo-loadscreen-spin 0.72s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fogo-loadscreen::after {
+    animation: none;
+    border-color: var(--fogo-accent);
+    opacity: 0.55;
+  }
+}
+
+.prevision-think {
+  background:
+    radial-gradient(circle at 50% 42%, color-mix(in srgb, #0b84ff 22%, transparent), transparent 52%),
+    var(--fogo-bg);
+}
+
+.dark .prevision-think {
+  background:
+    radial-gradient(circle at 50% 42%, color-mix(in srgb, #4eb6ff 28%, transparent), transparent 52%),
+    var(--fogo-bg);
+}
+
+.prevision-think-stage {
+  position: relative;
+  width: min(760px, 88vw);
+  height: min(500px, 56vh);
+}
+
+.prevision-mesh {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes fogo-shimmer {
+  0%,
+  100% {
+    opacity: 0.32;
+  }
+  50% {
+    opacity: 0.62;
+  }
+}
+
+.fogo-shimmer {
+  background: color-mix(in srgb, var(--fogo-muted) 22%, transparent);
+  animation: fogo-shimmer 1.15s ease-in-out infinite;
+}
+
+@keyframes fogo-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.fogo-enter {
+  animation: fogo-enter 0.38s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fogo-shimmer {
+    animation: none;
+    opacity: 0.4;
+  }
+  .fogo-enter {
+    animation: none;
+  }
+}
+
+.fogo-prometheus-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-height: 2.25rem;
+  padding: 0.2rem 0.7rem 0.2rem 0.28rem;
+  border: 1px solid var(--fogo-border);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--fogo-surface) 88%, transparent);
+  color: var(--fogo-muted);
+  transition:
+    border-color 220ms ease,
+    background-color 220ms ease,
+    box-shadow 220ms ease,
+    transform 220ms ease;
+}
+
+.fogo-prometheus-toggle:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--fogo-accent) 45%, var(--fogo-border));
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--fogo-accent) 12%, transparent);
+}
+
+.fogo-prometheus-toggle:focus-visible {
+  outline: 2px solid var(--fogo-accent);
+  outline-offset: 2px;
+}
+
+.fogo-prometheus-toggle[data-on='true'] {
+  color: var(--fogo-text);
+  border-color: color-mix(in srgb, var(--fogo-accent) 55%, var(--fogo-border));
+  background: color-mix(in srgb, var(--fogo-accent) 10%, var(--fogo-surface));
+}
+
+.fogo-prometheus-track {
+  position: relative;
+  width: 2.4rem;
+  height: 1.3rem;
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--fogo-muted) 22%, var(--fogo-bg));
+  transition: background-color 220ms ease;
+}
+
+.fogo-prometheus-toggle[data-on='true'] .fogo-prometheus-track {
+  background: var(--fogo-accent);
+}
+
+.fogo-prometheus-knob {
+  position: absolute;
+  top: 0.14rem;
+  left: 0.14rem;
+  width: 1.02rem;
+  height: 1.02rem;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 1px 4px rgb(32 33 36 / 0.2);
+  transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.fogo-prometheus-toggle[data-on='true'] .fogo-prometheus-knob {
+  transform: translateX(1.08rem);
+}
+
+.fogo-prometheus-tabs {
+  animation: fogo-prometheus-in 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes fogo-prometheus-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fogo-prometheus-toggle,
+  .fogo-prometheus-knob,
+  .fogo-prometheus-track {
+    transition: none;
+  }
+  .fogo-prometheus-toggle:hover {
+    transform: none;
+  }
+  .fogo-prometheus-tabs {
+    animation: none;
+  }
+}

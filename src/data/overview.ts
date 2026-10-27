@@ -1,0 +1,46 @@
+import type { KpiMetric } from '@/types'
+
+export const overviewKpis: KpiMetric[] = [
+  {
+    id: 'assets-total',
+    label: 'Ativos totais',
+    value: 1248,
+    delta: 2.4,
+    deltaLabel: 'vs. mês anterior',
+    trend: 'up',
+    route: '/ativos',
+  },
+  {
+    id: 'assets-operational',
+    label: 'Operacionais',
+    value: 1102,
+    suffix: '88,3% disp.',
+    delta: 0.6,
+    deltaLabel: 'disponibilidade',
+    trend: 'up',
+    route: '/ativos',
+    search: { estado: 'operacional' },
+    tone: 'success',
+  },
+  {
+    id: 'incidents-open',
+    label: 'OS em aberto',
+    value: 34,
+    delta: -8,
+    deltaLabel: 'vs. ontem',
+    trend: 'down',
+    route: '/ordens-servico',
+    search: { estado: 'aberta' },
+    tone: 'critical',
+  },
+  {
+    id: 'teams-field',
+    label: 'Agentes em campo',
+    value: 12,
+    delta: 2,
+    deltaLabel: 'ativas agora',
+    trend: 'up',
+    route: '/equipes',
+    search: { estado: 'campo' },
+  },
+]
